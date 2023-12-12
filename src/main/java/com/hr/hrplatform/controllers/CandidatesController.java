@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 
-
+@CrossOrigin("*")
 @ApiOperation(value = "")
 @ApiResponses(value = { @ApiResponse(code = 0, message = "") })
 @RestController
@@ -74,7 +75,7 @@ public class CandidatesController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET,value="/name")
+	@RequestMapping(method = RequestMethod.GET,value="/{name}")
 	public ResponseEntity<?> getCandidateByName(@RequestParam String name){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(candidateService.searchCandidateByName(name));
@@ -83,7 +84,7 @@ public class CandidatesController {
 		}
 		
 	}
-	@RequestMapping(method = RequestMethod.GET,value="/skill")
+	@RequestMapping(method = RequestMethod.GET,value="/{skill}")
 	public ResponseEntity<?> getCandidateBySkill(@RequestParam String skill){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(candidateService.searchCandidateBySkill(skill));
@@ -92,6 +93,25 @@ public class CandidatesController {
 		}
 		
 	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/{id}")
+	public ResponseEntity<?> getCandidateById(@RequestParam Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> getCandidateAll(){
+	
+			return ResponseEntity.status(HttpStatus.OK).body(candidateService.getAll());
+		
+		
+	}
+	
 	@RequestMapping(method = RequestMethod.POST,value="/ADDskill")
 	public ResponseEntity<?>addSkilltoCandidate(@RequestParam Integer candidate_id,@RequestParam Integer skill_id){
 			
