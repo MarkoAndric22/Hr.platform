@@ -81,4 +81,20 @@ public class CandidateServiceImpl implements CandidateService {
 		return candidates.stream().map(candidateMapper::toDto).collect(Collectors.toList());
 	}
 
+	@Override
+	public Optional<Candidate> getById(Integer id) throws RESTError {
+		Optional<Candidate>candidates=candidateRepository.findById(id);
+		if(candidates.isPresent()) {
+			return candidates;
+		}else {
+			throw new RESTError(1, "Candidate not exists");
+		}
+	}
+
+	@Override
+	public Iterable<Candidate> getAll() {
+		Iterable<Candidate>candidates=candidateRepository.findAll();
+		return candidates;
+	}
+
 }

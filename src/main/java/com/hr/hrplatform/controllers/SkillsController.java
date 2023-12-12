@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hr.hrplatform.Services.SkillService;
@@ -23,7 +25,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 
-
+@CrossOrigin("*")
 @ApiOperation(value = "")
 @ApiResponses(value = { @ApiResponse(code = 0, message = "") })
 @RestController
@@ -48,6 +50,16 @@ public class SkillsController {
 		} catch (RESTError e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/{id}")
+	public ResponseEntity<?> getSkillById(@RequestParam Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(skillService.getById(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 
 }

@@ -1,10 +1,8 @@
 package com.hr.hrplatform.controller;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hr.hrplatform.Services.SkillService;
 import com.hr.hrplatform.controllers.SkillsController;
-import com.hr.hrplatform.controllers.util.RESTError;
 import com.hr.hrplatform.entities.dto.SkillDTO;
 import com.hr.hrplatform.repositories.SkillsRepository;
 
@@ -53,7 +50,6 @@ public class SkillControllerTest {
 						.content(objectMapper.writeValueAsString(skillDTO)))
 				.andExpect(status().isOk());
 	}
-
 	
 	@Test
 	public void addSkill_validationFailureTest() throws Exception {
@@ -71,3 +67,4 @@ public class SkillControllerTest {
 
 
 }
+
