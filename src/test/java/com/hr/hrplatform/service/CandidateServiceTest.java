@@ -60,7 +60,7 @@ public class CandidateServiceTest {
 		CandidateDTO candidateToAdd = new CandidateDTO();
 		candidateToAdd.setName("Marko");
 		candidateToAdd.setDate_of_birth(date);
-		candidateToAdd.setContact_number(6644877492L);
+		candidateToAdd.setContact_number("6633995522");
 		candidateToAdd.setEmail("markoistori@gmail.com");
 
 		CandidateDTO addedCandidate = candidateService.add(candidateToAdd);
@@ -76,7 +76,7 @@ public class CandidateServiceTest {
 	    CandidateDTO candidateToAdd = new CandidateDTO();
 	    candidateToAdd.setName("Marko");
 	    candidateToAdd.setDate_of_birth(date);
-	    candidateToAdd.setContact_number(6644877492L);
+	    candidateToAdd.setContact_number("6633995522");
 	    candidateToAdd.setEmail("markoistorija90@gmail.com");
 
 	    assertThrows(RESTError.class, () -> candidateService.add(candidateToAdd));
@@ -87,8 +87,8 @@ public class CandidateServiceTest {
 		Integer id = 7;
 		Candidate candidate = candidateRepository.findById(id).get();
 
-		Candidate deletedCandidate = candidateService.deleteCandidate(candidate.getCandidate_id());
-		assertEquals(candidate.getCandidate_id(), deletedCandidate.getCandidate_id());
+		Candidate deletedCandidate = candidateService.deleteCandidate(candidate.getId());
+		assertEquals(candidate.getId(), deletedCandidate.getId());
 		assertEquals(candidate.getName(), deletedCandidate.getName());
 		assertEquals(candidate.getDate_of_birth(), deletedCandidate.getDate_of_birth());
 		assertEquals(candidate.getContact_number(), deletedCandidate.getContact_number());
@@ -196,8 +196,8 @@ public class CandidateServiceTest {
 		CandidateSkill removedCandidateSkill = candidateSkillService.removeSkilltoKandidat(candidateId, skillId);
 
 		assertNotNull(removedCandidateSkill);
-		assertEquals(candidateId, removedCandidateSkill.getCandidate().getCandidate_id());
-		assertEquals(skillId, removedCandidateSkill.getSkill().getSkill_id());
+		assertEquals(candidateId, removedCandidateSkill.getCandidate().getId());
+		assertEquals(skillId, removedCandidateSkill.getSkill().getId());
 	}
 	
 	@Test

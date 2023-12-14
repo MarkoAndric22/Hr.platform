@@ -14,6 +14,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class CandidateDTO {
 	
+	Integer id;
+	
 	@NotBlank(message = "Candidate name must not be blank")
 	@Size(min = 2, max = 50, message = "Candidate name must be between {min} and {max} characters")
 	private String name;
@@ -24,8 +26,8 @@ public class CandidateDTO {
 	private Date date_of_birth;
 
 	@NotNull(message = "Contact number must not be null")
-	@Digits(integer = 10, fraction = 0, message = "Contact number must be 10 digits long")
-	private Long contact_number;
+	@Size(min = 7, max = 14, message = "Candidate number must be between {min} and {max} characters")
+	private String contact_number;
 
 	@NotBlank(message = "Email must not be blank")
 	@Email(message = "Email must be valid")
@@ -36,16 +38,39 @@ public class CandidateDTO {
 		super();
 	}
 
+	public CandidateDTO(Integer id,
+			@NotBlank(message = "Candidate name must not be blank") @Size(min = 2, max = 50, message = "Candidate name must be between {min} and {max} characters") String name,
+			@NotNull(message = "Date of birth must not be null") @Past(message = "Date of birth must be in the past") Date date_of_birth,
+			@NotNull(message = "Contact number must not be null") @Size(min = 7, max = 14, message = "Candidate number must be between {min} and {max} characters") String contact_number,
+			@NotBlank(message = "Email must not be blank") @Email(message = "Email must be valid") String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.date_of_birth = date_of_birth;
+		this.contact_number = contact_number;
+		this.email = email;
+	}
+	
+	
+
 	public CandidateDTO(
 			@NotBlank(message = "Candidate name must not be blank") @Size(min = 2, max = 50, message = "Candidate name must be between {min} and {max} characters") String name,
 			@NotNull(message = "Date of birth must not be null") @Past(message = "Date of birth must be in the past") Date date_of_birth,
-			@NotNull(message = "Contact number must not be null") @Digits(integer = 10, fraction = 0, message = "Contact number must be 10 digits long") Long contact_number,
+			@NotNull(message = "Contact number must not be null") @Size(min = 7, max = 14, message = "Candidate number must be between {min} and {max} characters") String contact_number,
 			@NotBlank(message = "Email must not be blank") @Email(message = "Email must be valid") String email) {
 		super();
 		this.name = name;
 		this.date_of_birth = date_of_birth;
 		this.contact_number = contact_number;
 		this.email = email;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -64,11 +89,11 @@ public class CandidateDTO {
 		this.date_of_birth = date_of_birth;
 	}
 
-	public Long getContact_number() {
+	public String getContact_number() {
 		return contact_number;
 	}
 
-	public void setContact_number(Long contact_number) {
+	public void setContact_number(String contact_number) {
 		this.contact_number = contact_number;
 	}
 
@@ -79,12 +104,5 @@ public class CandidateDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Override
-	public String toString() {
-		return "CandidateDTO [name=" + name + ", date_of_birth=" + date_of_birth + ", contact_number=" + contact_number
-				+ ", email=" + email + "]";
-	}
-		
-
+	
 }

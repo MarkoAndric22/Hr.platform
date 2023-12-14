@@ -15,13 +15,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "skills")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Skill {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer skill_id;
+	private Integer id;
 	@NotBlank(message = "Skill name must not be blank")
 	@Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters")
 	@Column(unique = true)
@@ -35,22 +37,13 @@ public class Skill {
 		super();
 	}
 
-	public Skill(Integer skill_id,
+	public Skill(Integer id,
 			@NotBlank(message = "Skill name must not be blank") @Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters") String name,
 			List<CandidateSkill> candidateSkills) {
 		super();
-		this.skill_id = skill_id;
+		this.id = id;
 		this.name = name;
 		this.candidateSkills = candidateSkills;
-	}
-	
-	
-
-	public Skill(Integer skill_id,
-			@NotBlank(message = "Skill name must not be blank") @Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters") String name) {
-		super();
-		this.skill_id = skill_id;
-		this.name = name;
 	}
 
 	public Skill(
@@ -61,12 +54,18 @@ public class Skill {
 		this.candidateSkills = candidateSkills;
 	}
 
-	public Integer getSkill_id() {
-		return skill_id;
+	public Skill(
+			@NotBlank(message = "Skill name must not be blank") @Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters") String name) {
+		super();
+		this.name = name;
 	}
 
-	public void setSkill_id(Integer skill_id) {
-		this.skill_id = skill_id;
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -85,18 +84,4 @@ public class Skill {
 		this.candidateSkills = candidateSkills;
 	}
 
-	public Skill(
-			@NotBlank(message = "Skill name must not be blank") @Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters") String name) {
-		super();
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "Skill [skill_id=" + skill_id + ", name=" + name + ", candidateSkills=" + candidateSkills + "]";
-	}
-
-	
-	
-	
 }

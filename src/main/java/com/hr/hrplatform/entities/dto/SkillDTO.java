@@ -5,6 +5,8 @@ import javax.validation.constraints.Size;
 
 public class SkillDTO {
 	
+	Integer id;
+	
 	@NotBlank(message = "Skill name must not be blank")
 	@Size(min = 2, max = 50, message = "Skill name must be between {min} and {max} characters")
 	private String name;

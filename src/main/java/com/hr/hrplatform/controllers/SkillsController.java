@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hr.hrplatform.Services.SkillService;
@@ -53,9 +53,34 @@ public class SkillsController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,value="/{id}")
-	public ResponseEntity<?> getSkillById(@RequestParam Integer id){
+	public ResponseEntity<?> getSkillById(@PathVariable Integer id){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(skillService.getById(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE,value="/{id}")
+	public ResponseEntity<?> deleteSkill(@PathVariable Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(skillService.deleteSkill(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> getAll(){
+			return ResponseEntity.status(HttpStatus.OK).body(skillService.getAll());
+		}
+	
+	@RequestMapping(method = RequestMethod.PUT,value="/{id}")
+	public ResponseEntity<?> modify(@PathVariable Integer id,@RequestBody SkillDTO skill){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(skillService.modify(id, skill));
 		} catch(RESTError e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}

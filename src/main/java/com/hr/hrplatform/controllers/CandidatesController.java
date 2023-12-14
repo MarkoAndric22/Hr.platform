@@ -75,7 +75,18 @@ public class CandidatesController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET,value="/{name}")
+	@RequestMapping(method = RequestMethod.PUT,value="/{id}")
+	public ResponseEntity<?>modifyCandidate(@PathVariable Integer id,@Valid @RequestBody CandidateDTO candidate){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(candidateService.modify(id,candidate));
+			
+		} catch (RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET,value="/name")
 	public ResponseEntity<?> getCandidateByName(@RequestParam String name){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(candidateService.searchCandidateByName(name));
@@ -84,7 +95,7 @@ public class CandidatesController {
 		}
 		
 	}
-	@RequestMapping(method = RequestMethod.GET,value="/{skill}")
+	@RequestMapping(method = RequestMethod.GET,value="/skill")
 	public ResponseEntity<?> getCandidateBySkill(@RequestParam String skill){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(candidateService.searchCandidateBySkill(skill));
@@ -95,7 +106,7 @@ public class CandidatesController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,value="/{id}")
-	public ResponseEntity<?> getCandidateById(@RequestParam Integer id){
+	public ResponseEntity<?> getCandidateById(@PathVariable Integer id){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
 		} catch(RESTError e) {
@@ -122,13 +133,23 @@ public class CandidatesController {
 		}
 		
 	}
-	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<?>removeSkilltoKandidate(Integer id_candidate, Integer id_skill){
+	@RequestMapping(method = RequestMethod.DELETE,value = "/REMOVEskill")
+	public ResponseEntity<?>removeSkilltoKandidate(@RequestParam Integer id_candidate,@RequestParam Integer id_skill){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body((candidateSkillService.removeSkilltoKandidat(id_candidate, id_skill)));
 		}catch(RESTError e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/getSkillforCandidate/{id}")
+	public ResponseEntity<?> getSkillforCandidate(@PathVariable Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(candidateSkillService.getSkillforCandidate(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
 	}
 }
 

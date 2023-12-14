@@ -39,13 +39,23 @@ public class CandidateServiceImpl implements CandidateService {
 
 	@Override
 	public CandidateDTO modify(Integer id,CandidateDTO candidate) throws RESTError {
-		if(candidateRepository.existsById(id)) {
-			return candidateMapper.toDto(candidateRepository.save(candidateMapper.toEntity(candidate)));
+		 Candidate existingCandidate = candidateRepository.findById(id)
+		            .orElseThrow(() -> new RESTError(1, "Candidate not exists"));
+
+		    if (!existingCandidate.getEmail().equals(candidate.getEmail())) {
+		       
+		        if (candidateRepository.existsByEmail(candidate.getEmail())) {
+		            throw new RESTError(2, "Email already exists");
+		        }
+		    }
+
+		    existingCandidate.setName(candidate.getName());
+		    existingCandidate.setDate_of_birth(candidate.getDate_of_birth());
+		    existingCandidate.setContact_number(candidate.getContact_number());
+		    existingCandidate.setEmail(candidate.getEmail());
+
+		    return candidateMapper.toDto(candidateRepository.save(existingCandidate));
 		}
-		throw new RESTError(1, "Candidate not exists");
-		
-      
-	}
 
 	@Override
 	public Candidate deleteCandidate(Integer id) throws RESTError {

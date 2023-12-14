@@ -73,7 +73,7 @@ public class CandidateControllerTest {
 		String dateString = "2022-08-31";
 		LocalDate localDate = LocalDate.parse(dateString);
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		CandidateDTO candidateDTO = new CandidateDTO("Gavrilo", date, 6633995522L, "gavrilo@gmail.com");
+		CandidateDTO candidateDTO = new CandidateDTO("Gavrilo", date, "6633995522", "gavrilo@gmail.com");
 		when(candidateService.add(candidateDTO)).thenReturn(candidateDTO);
 		this.mockMvc.perform(post("/hrplatform/candidate").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(objectMapper.writeValueAsString(candidateDTO))).andExpect(status().isOk());
@@ -85,7 +85,7 @@ public class CandidateControllerTest {
 		LocalDate localDate = LocalDate.parse(dateString);
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Integer candidateId = 1;
-		Candidate candidate = new Candidate(1, "Gavrilo", date, 6633995522L, "gavrilo@email.com");
+		Candidate candidate = new Candidate(1, "Gavrilo", date, "6633995522", "gavrilo@email.com");
 		when(candidateService.deleteCandidate(candidateId)).thenReturn(candidate);
 		this.mockMvc.perform(delete("/hrplatform/candidate/{id}", candidateId)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -105,9 +105,9 @@ public class CandidateControllerTest {
 		String dateString = "2022-08-31";
 		LocalDate localDate = LocalDate.parse(dateString);
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		CandidateDTO candidateDTO1 = new CandidateDTO(name, date, 6633995522L, "sss@gmail.com");
-		CandidateDTO candidateDTO2 = new CandidateDTO(name, date, 6633445522L, "mmm@gmail.com");
-		CandidateDTO candidateDTO3 = new CandidateDTO(name, date, 66339955452L, "ggg@gmail.com");
+		CandidateDTO candidateDTO1 = new CandidateDTO(name, date, "6633995522", "sss@gmail.com");
+		CandidateDTO candidateDTO2 = new CandidateDTO(name, date, "6633995522", "mmm@gmail.com");
+		CandidateDTO candidateDTO3 = new CandidateDTO(name, date, "6633995522", "ggg@gmail.com");
 		List<CandidateDTO> candidates = Arrays.asList(candidateDTO1, candidateDTO2, candidateDTO3);
 		when(candidateService.searchCandidateByName(name))
 				.thenReturn(List.of(candidateDTO1, candidateDTO2, candidateDTO3));
@@ -132,7 +132,7 @@ public class CandidateControllerTest {
 		String dateString = "2022-08-31";
 		LocalDate localDate = LocalDate.parse(dateString);
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		CandidateDTO candidateDTO = new CandidateDTO("Gavrilo", date, 6633995522L, "gavrilo@gmail.com");
+		CandidateDTO candidateDTO = new CandidateDTO("Gavrilo", date, "6633995522", "gavrilo@gmail.com");
 		List<CandidateDTO> candidateDTOList = Collections.singletonList(candidateDTO);
 		when(candidateService.searchCandidateBySkill(skill)).thenReturn(candidateDTOList);
 		this.mockMvc.perform(get("/hrplatform/candidate/skill").param("skill", skill)).andExpect(status().isOk())
@@ -168,27 +168,27 @@ public class CandidateControllerTest {
 	
 	@Test
     public void addSkillToCandidate_successTest() throws Exception {
-        Integer candidateId = 1;
+        Integer id = 1;
         Integer skillId = 1;
 
         Candidate candidate = new Candidate();
-        candidate.setCandidate_id(candidateId);
+        candidate.setId(id);
 
         Skill skill = new Skill();
-        skill.setSkill_id(skillId);
+        skill.setId(skillId);
 
         CandidateSkill candidateSkill = new CandidateSkill();
         candidateSkill.setCandidate(candidate);
         candidateSkill.setSkill(skill);
 
-        when(candidateSkillService.addSkilltoKandidat(candidateId, skillId)).thenReturn(candidateSkill);
+        when(candidateSkillService.addSkilltoKandidat(id, skillId)).thenReturn(candidateSkill);
 
         mockMvc.perform(post("/hrplatform/candidate/ADDskill")
-        		.param("candidate_id", candidateId.toString())
+        		.param("candidate_id", id.toString())
         		.param("skill_id", skillId.toString()))
         		.andExpect(status().isOk())
-        		 .andExpect(jsonPath("$.candidate.candidate_id", is(candidateSkill.getCandidate().getCandidate_id())))
-                 .andExpect(jsonPath("$.skill.skill_id", is(candidateSkill.getSkill().getSkill_id())));
+        		 .andExpect(jsonPath("$.candidate.candidate_id", is(candidateSkill.getCandidate().getId())))
+                 .andExpect(jsonPath("$.skill.skill_id", is(candidateSkill.getSkill().getId())));
      }
 
     @Test
@@ -197,10 +197,10 @@ public class CandidateControllerTest {
         Integer skillId = 1;
 
         Candidate candidate = new Candidate();
-        candidate.setCandidate_id(candidateId);
+        candidate.setId(candidateId);
 
         Skill skill = new Skill();
-        skill.setSkill_id(skillId);
+        skill.setId(skillId);
 
         CandidateSkill candidateSkill = new CandidateSkill();
         candidateSkill.setCandidate(candidate);

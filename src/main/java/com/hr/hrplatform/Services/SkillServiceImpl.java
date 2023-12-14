@@ -36,4 +36,29 @@ public class SkillServiceImpl implements SkillService {
 		}
 	}
 
+	@Override
+	public SkillDTO modify(Integer id, SkillDTO skill) throws RESTError {
+		Skill existingSkill= skillsRepository.findById(id)
+				.orElseThrow(() -> new RESTError(1, "Skill not exists"));
+		existingSkill.setName(skill.getName());
+		
+		return skillMapper.toDto(skillsRepository.save(existingSkill));
+	}
+
+	@Override
+	public Iterable<Skill> getAll() {
+		Iterable<Skill>skills=skillsRepository.findAll();
+		return skills;
+	}
+
+	@Override
+	public Skill deleteSkill(Integer id) throws RESTError {
+		Optional<Skill>skill= skillsRepository.findById(id);
+		if(!skill.isEmpty()) {
+			skillsRepository.delete(skill.get());
+			return skill.get();
+		}
+		throw new RESTError(1, "skill not exists");
+	}
+
 }

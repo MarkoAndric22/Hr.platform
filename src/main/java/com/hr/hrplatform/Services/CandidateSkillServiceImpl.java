@@ -1,6 +1,7 @@
 package com.hr.hrplatform.Services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,9 +58,9 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
 		}
 		Candidate candidate = candidateRepository.findById(id_candidate).get();
 		Skill skill = skillsRepository.findById(id_skill).get();
-		
-		if(!candidateSkillRepository.existsByCandidateAndSkill(candidate, skill)) {
-			throw new  RESTError(1, "Candidate and skill are not linked");
+
+		if (!candidateSkillRepository.existsByCandidateAndSkill(candidate, skill)) {
+			throw new RESTError(1, "Candidate and skill are not linked");
 		}
 
 		CandidateSkill candidateSkill = candidateSkillRepository.findByCandidateAndSkill(candidate, skill);
@@ -67,6 +68,15 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
 		candidateSkillRepository.delete(candidateSkill);
 
 		return candidateSkill;
+	}
+
+	@Override
+	public List<Skill> getSkillforCandidate(Integer id) throws RESTError {
+		Candidate candidate = candidateRepository.findById(id).get();
+		List<CandidateSkill> candidateSkill = candidateSkillRepository.findByCandidate(candidate);
+		List<Skill> skills = skills = candidateSkill.stream().map(CandidateSkill::getSkill)
+				.collect(Collectors.toList());
+		return skills;
 	}
 
 }
