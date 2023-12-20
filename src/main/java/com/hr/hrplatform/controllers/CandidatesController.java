@@ -1,5 +1,6 @@
 package com.hr.hrplatform.controllers;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hr.hrplatform.Services.CandidateService;
 import com.hr.hrplatform.Services.CandidateSkillService;
 import com.hr.hrplatform.controllers.util.RESTError;
+import com.hr.hrplatform.entities.Skill;
 import com.hr.hrplatform.entities.dto.CandidateDTO;
 import com.hr.hrplatform.repositories.CandidateRepository;
 import com.hr.hrplatform.repositories.CandidateSkillRepository;
@@ -123,11 +125,11 @@ public class CandidatesController {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.POST,value="/ADDskill")
-	public ResponseEntity<?>addSkilltoCandidate(@RequestParam Integer candidate_id,@RequestParam Integer skill_id){
+	@RequestMapping(method = RequestMethod.POST,value="/ADDskill/{candidate_id}")
+	public ResponseEntity<?>addSkilltoCandidate(@PathVariable Integer candidate_id,@RequestBody List<Skill>skills){
 			
 		try {
-		return ResponseEntity.status(HttpStatus.OK).body((candidateSkillService.addSkilltoKandidat(candidate_id,skill_id)));
+		return ResponseEntity.status(HttpStatus.OK).body((candidateSkillService.addSkilltoKandidat(candidate_id,skills)));
 		}catch(RESTError e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
@@ -151,5 +153,16 @@ public class CandidatesController {
 		}
 		
 	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/getSkillforCandidateDontHave/{id}")
+	public ResponseEntity<?> getSkillforCandidateDontHave(@PathVariable Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(candidateSkillService.getSkillForCandidateDontHave(id));
+		} catch(RESTError e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+	}
+	
 }
 

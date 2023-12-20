@@ -1,5 +1,6 @@
 package com.hr.hrplatform.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,30 +24,7 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
 	@Autowired
 	CandidateSkillRepository candidateSkillRepository;
 
-	@Override
-	public CandidateSkill addSkilltoKandidat(Integer id_candidate, Integer id_skill) throws RESTError {
-
-		if (!candidateRepository.existsById(id_candidate)) {
-			throw new RESTError(1, "Candidate not exists");
-		}
-		if (!skillsRepository.existsById(id_skill)) {
-			throw new RESTError(1, "Skill not exists");
-		}
-		Candidate candidate = candidateRepository.findById(id_candidate).get();
-		Skill skill = skillsRepository.findById(id_skill).get();
-
-		List<CandidateSkill> candidateSkills = candidateSkillRepository.findByCandidate(candidate);
-		for (CandidateSkill cs : candidateSkills) {
-			if (cs.getSkill().equals(skill)) {
-				throw new RESTError(1, "Candidate already has this skill");
-			}
-		}
-
-		CandidateSkill candidateSkill = new CandidateSkill(candidate, skill);
-
-		candidateSkillRepository.save(candidateSkill);
-		return candidateSkill;
-	}
+	
 
 	@Override
 	public CandidateSkill removeSkilltoKandidat(Integer id_candidate, Integer id_skill) throws RESTError {
@@ -79,4 +57,27 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
 		return skills;
 	}
 
+	@Override
+	public List<Skill> getSkillForCandidateDontHave(Integer id) throws RESTError {
+		Candidate candidate = candidateRepository.findById(id).get();
+		List<Skill>skills=new ArrayList<Skill>();
+		for(Skill skill:skillsRepository.findAll()) {
+			if(!getSkillforCandidate(id).contains(skill)) {
+				skills.add(skill);
+			}
+		}
+		return skills;
+	}
+
+	@Override
+	public Candidate addSkilltoKandidat(Integer id_candidate, List<Skill> skills) throws RESTError {
+		
+		Candidate candidate=candidateRepository.findById(id_candidate).get();
+		for(Skill s:skills) {
+			
+			candidateSkillRepository.save(new CandidateSkill(candidate,s));
+	}
+		
+		return candidate;
+	} 
 }

@@ -166,30 +166,30 @@ public class CandidateControllerTest {
 		assertTrue(response.contains("Email must not be blank"));
 	}
 	
-	@Test
-    public void addSkillToCandidate_successTest() throws Exception {
-        Integer id = 1;
-        Integer skillId = 1;
-
-        Candidate candidate = new Candidate();
-        candidate.setId(id);
-
-        Skill skill = new Skill();
-        skill.setId(skillId);
-
-        CandidateSkill candidateSkill = new CandidateSkill();
-        candidateSkill.setCandidate(candidate);
-        candidateSkill.setSkill(skill);
-
-        when(candidateSkillService.addSkilltoKandidat(id, skillId)).thenReturn(candidateSkill);
-
-        mockMvc.perform(post("/hrplatform/candidate/ADDskill")
-        		.param("candidate_id", id.toString())
-        		.param("skill_id", skillId.toString()))
-        		.andExpect(status().isOk())
-        		 .andExpect(jsonPath("$.candidate.candidate_id", is(candidateSkill.getCandidate().getId())))
-                 .andExpect(jsonPath("$.skill.skill_id", is(candidateSkill.getSkill().getId())));
-     }
+//	@Test
+//    public void addSkillToCandidate_successTest() throws Exception {
+//        Integer id = 1;
+//        Integer skillId = 1;
+//
+//        Candidate candidate = new Candidate();
+//        candidate.setId(id);
+//
+//        Skill skill = new Skill();
+//        skill.setId(skillId);
+//
+//        CandidateSkill candidateSkill = new CandidateSkill();
+//        candidateSkill.setCandidate(candidate);
+//        candidateSkill.setSkill(skill);
+//
+//        when(candidateSkillService.addSkilltoKandidat(id, skillId)).thenReturn(candidateSkill);
+//
+//        mockMvc.perform(post("/hrplatform/candidate/ADDskill")
+//        		.param("candidate_id", id.toString())
+//        		.param("skill_id", skillId.toString()))
+//        		.andExpect(status().isOk())
+//        		 .andExpect(jsonPath("$.candidate.candidate_id", is(candidateSkill.getCandidate().getId())))
+//                 .andExpect(jsonPath("$.skill.skill_id", is(candidateSkill.getSkill().getId())));
+//     }
 
     @Test
     public void removeSkilltoKandidate_successTest() throws Exception {

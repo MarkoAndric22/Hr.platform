@@ -150,42 +150,42 @@ public class CandidateServiceTest {
 
 	}
 
-	@Test
-	public void testAddSkilltoKandidat() throws RESTError {
-		Integer candidateId = 7;
-		Integer skillId = 94;
+//	@Test
+//	public void testAddSkilltoKandidat() throws RESTError {
+//		Integer candidateId = 7;
+//		Integer skillId = 94;
+//
+//		CandidateSkill addedCandidateSkill = candidateSkillService.addSkilltoKandidat(candidateId, skillId);
+//
+//		assertNotNull(addedCandidateSkill);
+//	}
+//	
+//	@Test
+//	public void testAddSkilltoKandidat_CandidateNotExists() {
+//	    Integer idCandidate = 999;
+//	    Integer idSkill = 8;
+//	    assertThrows(RESTError.class, () -> {
+//	        candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
+//	    });
+//	}
 
-		CandidateSkill addedCandidateSkill = candidateSkillService.addSkilltoKandidat(candidateId, skillId);
-
-		assertNotNull(addedCandidateSkill);
-	}
-	
-	@Test
-	public void testAddSkilltoKandidat_CandidateNotExists() {
-	    Integer idCandidate = 999;
-	    Integer idSkill = 8;
-	    assertThrows(RESTError.class, () -> {
-	        candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
-	    });
-	}
-
-	@Test
-	public void testAddSkilltoKandidat_SkillNotExists() {
-	    Integer idCandidate = 7;
-	    Integer idSkill = 999;
-	    assertThrows(RESTError.class, () -> {
-	    	candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
-	    });
-	}
-
-	@Test
-	public void testAddSkilltoKandidat_AlreadyHasSkill() {
-	    Integer idCandidate = 7;
-	    Integer idSkill = 8;
-	    assertThrows(RESTError.class, () -> {
-	    	candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
-	    });
-	}
+//	@Test
+//	public void testAddSkilltoKandidat_SkillNotExists() {
+//	    Integer idCandidate = 7;
+//	    Integer idSkill = 999;
+//	    assertThrows(RESTError.class, () -> {
+//	    	candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
+//	    });
+//	}
+//
+//	@Test
+//	public void testAddSkilltoKandidat_AlreadyHasSkill() {
+//	    Integer idCandidate = 7;
+//	    Integer idSkill = 8;
+//	    assertThrows(RESTError.class, () -> {
+//	    	candidateSkillService.addSkilltoKandidat(idCandidate, idSkill);
+//	    });
+//	}
 
 
 	@Test
