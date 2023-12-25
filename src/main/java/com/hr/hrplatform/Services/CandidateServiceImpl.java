@@ -82,7 +82,6 @@ public class CandidateServiceImpl implements CandidateService {
 	@Override
 	public List<CandidateDTO> searchCandidateBySkill(String skillName) throws RESTError {
 		 List<CandidateSkill> candidateSkills = candidateSkillRepository.findBySkillName(skillName);
-		 System.out.println(candidateSkills);
 		 List<Candidate> candidates = candidateSkills.stream()
 		            .map(CandidateSkill::getCandidate)
 		            .collect(Collectors.toList());
